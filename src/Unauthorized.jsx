@@ -7,7 +7,7 @@ export default function Unauthorized() {
         typography: "title",
         fontWeight: "bold",
         fontSize: "h4.fontSize",
-        color: "red"
+        color: "red",
       }}
     >
       Unauthorized

@@ -18,7 +18,7 @@ export default function Login() {
   const [values, setValues] = React.useState({
     username: "",
     password: "",
-    showPassword: false
+    showPassword: false,
   });
 
   const handleChange = (prop) => (event) => {
@@ -28,7 +28,7 @@ export default function Login() {
   const handleClickShowPassword = () => {
     setValues({
       ...values,
-      showPassword: !values.showPassword
+      showPassword: !values.showPassword,
     });
   };
 
@@ -40,8 +40,8 @@ export default function Login() {
     event.preventDefault();
 
     const user = {
-      ID: 10,
-      Location: 2
+      ID: 7,
+      Location: 2,
     };
     setCurrentUser(user);
     console.log("setuser");
@@ -49,12 +49,19 @@ export default function Login() {
     navigate("/devices");
   };
   return (
-    <Container maxWidth="sm">
+    <Box
+      style={{
+        display: "flex",
+        height: "100vh",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
       <Box
         sx={{
           typography: "title",
           fontWeight: "bold",
-          fontSize: "h4.fontSize"
+          fontSize: "h4.fontSize",
         }}
       >
         Login
@@ -94,6 +101,6 @@ export default function Login() {
         </Button>
         {/* </Link> */}
       </FormControl>
-    </Container>
+    </Box>
   );
 }
