@@ -86,3 +86,38 @@ const data = [
 ];
 
 console.log(Object.keys(data[0]));
+arr = ["_id", "updated_at", "created_at", "__v"];
+columnHeaders = Object.keys(data[0]).filter(function (val) {
+  return arr.indexOf(val) == -1;
+});
+function headerString(str) {
+  var splitStr = str.toLowerCase().split("_");
+  for (var i = 0; i < splitStr.length; i++) {
+    // You do not need to check if i is larger than splitStr length, as your for does that for you
+    // Assign it back to the array
+    splitStr[i] =
+      splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
+  }
+  // Directly return the joined string
+  return splitStr.join(" ");
+}
+fieldColumns = columnHeaders.map((column) => {
+  return {
+    field: column,
+    headerName: headerString(column),
+    editale: true,
+  };
+});
+const columns = [
+  { field: "id", headerName: "ID", width: 90 },
+  ...fieldColumns,
+  {
+    field: "created_at",
+    headerName: "Created At",
+    type: "number",
+    width: 200,
+    editable: true,
+  },
+];
+
+console.log(columns);

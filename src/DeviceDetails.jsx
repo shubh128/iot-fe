@@ -4,27 +4,38 @@ import { DataGrid } from "@mui/x-data-grid";
 import { rawData } from "./data.js";
 import { awsUrl } from "./constants";
 import CircularProgress from "@mui/material/CircularProgress";
-
+import { useParams } from "react-router";
 var axios = require("axios");
 
 const setRowColumn = (data) => {
   const rows = data.map((data, id) => {
     return { ...data, id };
   });
+  let arr = ["_id", "updated_at", "created_at", "__v"];
+  let columnHeaders = Object.keys(data[0]).filter(function (val) {
+    return arr.indexOf(val) == -1;
+  });
+  function headerString(str) {
+    var splitStr = str.toLowerCase().split("_");
+    for (var i = 0; i < splitStr.length; i++) {
+      // You do not need to check if i is larger than splitStr length, as your for does that for you
+      // Assign it back to the array
+      splitStr[i] =
+        splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
+    }
+    // Directly return the joined string
+    return splitStr.join(" ");
+  }
+  let fieldColumns = columnHeaders.map((column) => {
+    return {
+      field: column,
+      headerName: headerString(column),
+      editale: true,
+    };
+  });
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
-    {
-      field: "flame_sensor",
-      headerName: "Flame  Sensor",
-      // width: 150,
-      editable: true,
-    },
-    {
-      field: "smoke_sensor",
-      headerName: "Smoke Sensor",
-      // width: 150,
-      editable: true,
-    },
+    ...fieldColumns,
     {
       field: "created_at",
       headerName: "Created At",
@@ -33,7 +44,7 @@ const setRowColumn = (data) => {
       editable: true,
     },
   ];
-  console.log("row", rows);
+
   return [rows, columns];
 };
 export default function DeviceDetails() {
@@ -41,7 +52,8 @@ export default function DeviceDetails() {
   const [loading, setLoading] = useState(true);
   const [tableData, setTableData] = useState([]);
   const [tableLoading, setTableLoading] = useState(true);
-
+  const { id } = useParams();
+  console.log(id);
   // let rows = rawData.map((data, id) => {
   //   return { ...data, id };
   // });
@@ -71,7 +83,7 @@ export default function DeviceDetails() {
   useEffect(() => {
     var config = {
       method: "get",
-      url: `${awsUrl}/api/d2/`,
+      url: `${awsUrl}/api/${id}/`,
       headers: {},
     };
 
